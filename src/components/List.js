@@ -3,18 +3,21 @@ import styled from "styled-components";
 import Item from "./Item";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setCommentThunk } from "../reducer/page";
+import { getCommentThunk } from "../reducer/page";
 
 function List() {
-  const listRef = React.useRef(null);
-
   const dispatch = useDispatch();
   const { comments } = useSelector((state) => state.page);
 
+  //* 부드러운 화면 전환을 위해, Container div DOM에 지정
+  const listRef = React.useRef(null);
+
+  //* 처음 렌더링 시, page=1 호출
   useEffect(() => {
-    dispatch(setCommentThunk());
+    dispatch(getCommentThunk());
   }, [dispatch]);
 
+  //* commnet 변경 시, 페이지에 중앙으로 스크롤 이동
   useEffect(() => {
     listRef.current.scrollIntoView({
       behavior: "smooth",
