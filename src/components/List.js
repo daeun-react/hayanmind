@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCommentThunk } from "../reducer/page";
 
 function List() {
+  const listRef = React.useRef(null);
+
   const dispatch = useDispatch();
   const { comments } = useSelector((state) => state.page);
 
@@ -13,8 +15,15 @@ function List() {
     dispatch(setCommentThunk());
   }, [dispatch]);
 
+  useEffect(() => {
+    listRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }, [comments]);
+
   return (
-    <Container>
+    <Container ref={listRef}>
       {comments.map((comment, index) => (
         <Item key={`commnet${index}`} {...comment} />
       ))}
